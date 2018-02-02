@@ -4,7 +4,7 @@
 #
 Name     : hunspell
 Version  : 1.6.2
-Release  : 3
+Release  : 4
 URL      : https://github.com/hunspell/hunspell/archive/v1.6.2.tar.gz
 Source0  : https://github.com/hunspell/hunspell/archive/v1.6.2.tar.gz
 Summary  : Hunspell spellchecking library
