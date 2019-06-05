@@ -4,7 +4,7 @@
 #
 Name     : hunspell
 Version  : 1.7.0
-Release  : 6
+Release  : 7
 URL      : https://github.com/hunspell/hunspell/archive/v1.7.0.tar.gz
 Source0  : https://github.com/hunspell/hunspell/archive/v1.7.0.tar.gz
 Summary  : Spell checker and morphological analyzer library and program
