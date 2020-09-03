@@ -4,10 +4,10 @@
 #
 Name     : hunspell
 Version  : 1.7.0
-Release  : 7
+Release  : 8
 URL      : https://github.com/hunspell/hunspell/archive/v1.7.0.tar.gz
 Source0  : https://github.com/hunspell/hunspell/archive/v1.7.0.tar.gz
-Summary  : Spell checker and morphological analyzer library and program
+Summary  : Hunspell spellchecking library
 Group    : Development/Tools
 License  : BSD-2-Clause GPL-2.0 LGPL-2.1 MPL-1.1
 Requires: hunspell-bin = %{version}-%{release}
@@ -24,7 +24,6 @@ and command-line tool, licensed under LGPL/GPL/MPL tri-license.
 Summary: bin components for the hunspell package.
 Group: Binaries
 Requires: hunspell-license = %{version}-%{release}
-Requires: hunspell-man = %{version}-%{release}
 
 %description bin
 bin components for the hunspell package.
@@ -36,6 +35,7 @@ Group: Development
 Requires: hunspell-lib = %{version}-%{release}
 Requires: hunspell-bin = %{version}-%{release}
 Provides: hunspell-devel = %{version}-%{release}
+Requires: hunspell = %{version}-%{release}
 
 %description dev
 dev components for the hunspell package.
@@ -68,32 +68,41 @@ man components for the hunspell package.
 
 %prep
 %setup -q -n hunspell-1.7.0
+cd %{_builddir}/hunspell-1.7.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1549255453
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1599157061
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %reconfigure --disable-static
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1549255453
+export SOURCE_DATE_EPOCH=1599157061
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/hunspell
-cp COPYING %{buildroot}/usr/share/package-licenses/hunspell/COPYING
-cp COPYING.LESSER %{buildroot}/usr/share/package-licenses/hunspell/COPYING.LESSER
-cp COPYING.MPL %{buildroot}/usr/share/package-licenses/hunspell/COPYING.MPL
-cp license.hunspell %{buildroot}/usr/share/package-licenses/hunspell/license.hunspell
-cp license.myspell %{buildroot}/usr/share/package-licenses/hunspell/license.myspell
+cp %{_builddir}/hunspell-1.7.0/COPYING %{buildroot}/usr/share/package-licenses/hunspell/13d2034b5ee3cb8d1a076370cf8f0e344a5d0855
+cp %{_builddir}/hunspell-1.7.0/COPYING.LESSER %{buildroot}/usr/share/package-licenses/hunspell/5dea8b07199dbcc7be918770ca7cef346f523214
+cp %{_builddir}/hunspell-1.7.0/COPYING.MPL %{buildroot}/usr/share/package-licenses/hunspell/aba8d76d0af67d57da3c3c321caa59f3d242386b
+cp %{_builddir}/hunspell-1.7.0/license.hunspell %{buildroot}/usr/share/package-licenses/hunspell/7e9367aa6f34c602c5175ef7a86ce800b05e339c
+cp %{_builddir}/hunspell-1.7.0/license.myspell %{buildroot}/usr/share/package-licenses/hunspell/a897c88546c86e1f1eaebd89bc101404d51e81cc
 %make_install
 
 %files
@@ -132,11 +141,11 @@ cp license.myspell %{buildroot}/usr/share/package-licenses/hunspell/license.mysp
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/hunspell/COPYING
-/usr/share/package-licenses/hunspell/COPYING.LESSER
-/usr/share/package-licenses/hunspell/COPYING.MPL
-/usr/share/package-licenses/hunspell/license.hunspell
-/usr/share/package-licenses/hunspell/license.myspell
+/usr/share/package-licenses/hunspell/13d2034b5ee3cb8d1a076370cf8f0e344a5d0855
+/usr/share/package-licenses/hunspell/5dea8b07199dbcc7be918770ca7cef346f523214
+/usr/share/package-licenses/hunspell/7e9367aa6f34c602c5175ef7a86ce800b05e339c
+/usr/share/package-licenses/hunspell/a897c88546c86e1f1eaebd89bc101404d51e81cc
+/usr/share/package-licenses/hunspell/aba8d76d0af67d57da3c3c321caa59f3d242386b
 
 %files man
 %defattr(0644,root,root,0755)
